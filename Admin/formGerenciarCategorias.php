@@ -10,8 +10,7 @@ $categorias = new \App\ManipularCategorias();
 
 ?>
 <div class="col-12">
-    <button class='btn btn-success' id='btnAlterar'>Incluir categoria</button>
-    <!-- <p class="h3">Gerenciador de categorias</p> -->
+    <button class='btn btn-success' id='btnIncCat' data-toggle='modal' data-target='#formModalIncCategoria'>Incluir categoria</button>    
 </div>  
 <table class="table" id="tabelaCategoria">
     <thead class="thead-dark">
@@ -147,6 +146,63 @@ foreach ($categorias->categorias['dados'] as $indice => $categorias) {
     </div>
   </div>
 </div>
+
+
+
+
+<div class="modal fade" id="formModalAltCategoria" tabindex="-1" role="dialog" aria-labelledby="formModalAltCategoria" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alteração da categoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id='formAltCat'>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Título:</label>
+            <input type="hidden" class="form-control" id="idcategoria">
+            <input type="text" class="form-control" id="descricao">
+          </div>
+          <div class="form-group">            
+            <label for="endereco">Imagem</label>                  
+            <input class="form-control-file" type="file" id="imagem" name="imagem">
+            <img src="" width="50" height="50" style="display:none;" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" id="btnConfirAltCategoria">Alterar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para INCLUIR a conta -->
+<div class="modal fade" id="formModalIncCategoria" tabindex="-1" role="dialog" aria-labelledby="modalIncCategoria" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inclusão de categoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id='msg'>
+        <?php
+        include_once './formCadastraCategoria.php';
+        ?>
+        
+      </div>      
+    </div>
+  </div>
+</div>
+
+
+
 
 <?php
  require_once dirname(__DIR__,1) . '/includes/rodape.php';

@@ -217,9 +217,11 @@ $(document).ready(function(){
     });
     
     // Botão para Cadastro de Categorias
-    $('#cadCategoria').click(function() {        
-        var file_data = $('#imagem').prop('files')[0];
-        var titulo = $('#tituloCategoria').val();
+    $('#cadCategoria').click(function() {    
+        var modal = $('#formCadCategoria');           
+                       
+        var file_data = modal.find("#imagem").prop('files')[0];
+        var titulo = modal.find("#tituloCategoria").val();
         var form_data = new FormData();  
         form_data.append('file', file_data);
         form_data.append('titulo', titulo);
@@ -236,8 +238,7 @@ $(document).ready(function(){
                         var mensagem = "<strong>Categoria cadastrada com sucesso!</strong>";
                         mostraDialogo(mensagem, "success", 2500);                        
                     },
-                    error: function(retorno) {
-                        console.dir(retorno);
+                    error: function(retorno) {                        
                         var mensagem = "<strong>Falha no cadastro!</strong>";
                         mostraDialogo(mensagem, "danger", 2500);
                     }

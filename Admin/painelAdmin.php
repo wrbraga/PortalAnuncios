@@ -38,8 +38,7 @@
                   <div class="card-body">
                       
                       <div class='row'>
-                          <div class="col-12">
-                              <a class="btn btn-categoria" href="/Admin/formCadastraCategoria.php">Cadastro de Categorias</a>                              
+                          <div class="col-12">                              
                               <a class="btn btn-categoria" href="/Admin/formGerenciarCategorias.php">Gerenciar Categorias</a>
                               <a class="btn btn-subcategoria" href="/Admin/formCadastraSubCategoria.php">Cadastro de Subcategoria</a>
                               <a class="btn btn-subcategoria" href="/Admin/formGerenciarSubCategorias.php">Gerenciar Subcategoria</a>
