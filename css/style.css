@@ -1,0 +1,78 @@
+div .borda-superior-redonda {
+  border: 2px solid transparent;
+  padding: 10px;
+  border-top-right-radius: 20px 20px;
+  border-top-left-radius: 20px 20px;
+}
+
+.fundo {
+    background: #003399;
+    font-family: verdana;
+    font-size: 10px;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.linha_inferior {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.linha_superior {
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.max-altura {
+    height: 100%;
+    background: #FF5252;
+}
+
+.padrao {
+    border: 1px solid rgba(0,0,0,.2);       
+}
+
+.largura {
+    min-width: 500px;
+    max-width: 500px;
+}
+
+.btn-categoria {
+    background-color: chocolate; 
+    color: white;        
+}
+
+.btn-categoria:hover {
+  background-color: yellow;
+  text-decoration: none;
+  color: black;
+}
+
+.btn-subcategoria {
+    background-color: #FF5252; 
+    color: white;        
+}
+
+.btn-subcategoria:hover {
+  background-color: yellow;
+  text-decoration: none;
+  color: black;
+}
+
+.btn-item {
+    background-color: coral; 
+    color: white;        
+}
+
+.btn-item:hover {
+  background-color: yellow;
+  text-decoration: none;
+  color: black;
+}
+
+@media screen and (max-width:500px) {
+    .largura {
+        min-width: 100px;
+        max-width: 250px;
+    }
+}
