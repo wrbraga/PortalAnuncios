@@ -10,7 +10,8 @@ $categorias = new \App\ManipularCategorias();
 
 ?>
 <div class="col-12">
-    <p class="h3">Gerenciador de categorias</p>
+    <button class='btn btn-success' id='btnAlterar'>Incluir categoria</button>
+    <!-- <p class="h3">Gerenciador de categorias</p> -->
 </div>  
 <table class="table" id="tabelaCategoria">
     <thead class="thead-dark">
@@ -47,7 +48,7 @@ foreach ($categorias->categorias['dados'] as $indice => $categorias) {
     echo '          <img src="data:image/jpeg;base64,'.base64_encode( $categorias['imagem'] ).'"/>';
     echo "</td>";
     echo "<td>";
-    echo "<button class='btn btn-success' id='btnAlterar' type='button' data-toggle='modal' ";
+    echo "<button class='btn btn-primary' id='btnAlterar' type='button' data-toggle='modal' ";
     echo "data-linha='". ($indice ) . "' ";
     echo "data-altId='". $categorias['id'] . "' ";
     echo "data-altTitulo='". $categorias['titulo'] . "' ";
