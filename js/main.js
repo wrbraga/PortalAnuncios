@@ -342,7 +342,9 @@ $(document).ready(function(){
         });
     });
     
-    // Botão para Cadastro de SubCategorias
+    /** 
+     *  Botão para Cadastro de SubCategorias
+     */
     $('#cadSubCategoria').click(function() {   
         var modal = $('#formCadSubCategoria');
         var file_data = modal.find("#imagem").prop('files')[0];
@@ -363,12 +365,10 @@ $(document).ready(function(){
                 data        : form_data,                         
                 type        : 'post',
                     success: function(retorno) {  
-                        console.dir(retorno);
                         var mensagem = "<strong>Subcategoria cadastrada com sucesso!</strong>";
                         mostraDialogo(mensagem, "success", 2500);                        
                     },
                     error: function(retorno) {
-                        console.dir(retorno);
                         var mensagem = "<strong>Falha no cadastro!</strong>";
                         mostraDialogo(mensagem, "danger", 2500);
                     }
@@ -376,5 +376,85 @@ $(document).ready(function(){
          $('#imagem').val('');              
          $('#titulo').val('');
     });    
+    
+        
+    /** 
+     *  Botão que chama o Modal para Alterar as SUBCATEGORIAS
+     *  Abre a janela Modal e faz todo tratamento de eventos
+     *  até o fechamento de confirmação ou não da alteração 
+     *  dos dados
+     */
+    $('#tabelaSubCategoria #btnShowAlterar').click(function(event) {
+        //Pegando dados da tabela
+        var numLinhaTabela = (event.target.parentNode.parentElement.rowIndex - 1);
+        var linha = $('#tabelaSubCategoria tbody').find('tr').eq(numLinhaTabela);
+        var imagemTabela = linha.find('td:eq(3)').find('img');
+        var button = $(event.currentTarget);        
+        var id = button.data('altid');
+        var idCategoria = button.data('altidcat');
+        var titulo = button.data('alttitulo');
+        
+        //Transportando para janela modal
+        var modal = $('#formModalAltSubCategoria');
+        modal.find('#descricao').val(titulo);
+        modal.find('#preview').attr('src',imagemTabela.attr('src'));
+        modal.find('#idcategoria').val(idCategoria);        
+        modal.find('#id').val(id);
+        
+        /** Dentro do modal **/
+        //Pegando a nova imagem
+        var imagemAlterada;        
+        $('#formModalAltSubCategoria #imagem').change( function(event) {            
+            imagemAlterada = URL.createObjectURL(event.target.files[0]);
+            $('#formModalAltSubCategoria').find('img').fadeIn("fast").attr('src',imagemAlterada);
+        });
+        
+        //Botão dentro da janela MODAL para confirmar a alteração 
+        //dos dados da categoria
+        $('#btnConfirAltSubCategoria').click(function(event) {
+            //Preparando  o form que enviará os dados
+            var form = $('#formAltSubCat');
+            var file_data = $('#imagem').prop('files')[0];
+            var id = form.find('#id').val();
+            var idcategoria = form.find('#idcategoria').val();            
+            var descricao = form.find('#descricao').val();                        
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('descricao', descricao);
+            form_data.append('id', id);  
+            form_data.append('idcategoria', idcategoria);  
+
+            //Enviando os dados
+            $.ajax({
+                    url         : '../Admin/alterarSubCategoria.php',
+                    dataType    : 'text',           
+                    cache       : false,
+                    contentType : false,
+                    processData : false,
+                    data        : form_data,                         
+                    type        : 'post',
+                        success: function(retorno) {  
+                            //Alterando os dados da tabela
+                            imagemTabela.attr('src',imagemAlterada);
+                            linha.find('td:eq(1)').html(descricao);
+                            linha.find('td:eq(2)').html($('#idcategoria option:selected').text());
+                            
+                            var mensagem = "Categoria <strong>alterada</strong> com sucesso!";
+                            mostraDialogo(mensagem, "success", 2500);                        
+                        },
+                        error: function(retorno) {
+                            var mensagem = "<strong>Falha no cadastro!</strong>";
+                            mostraDialogo(mensagem, "danger", 2500);
+                        }
+             });
+             
+            //Limpando a janela modal
+            $('#imagem').val('');  
+            $('#preview').val('');              
+            $('#formModalAltSubCategoria').modal('hide');
+        });    
+    });
+
+    
     
 });

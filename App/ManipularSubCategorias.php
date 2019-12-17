@@ -77,8 +77,8 @@ class ManipularSubCategorias extends \BD\SubCategorias {
     }
     
     public function alterarSubCategoria() {
-        $sql = "UPDATE `tbCategorias` SET `titulo` = ?";
-        $dados = array($this->getTitulo());
+        $sql = "UPDATE `tbSubCategorias` SET `idCategoria` = ?, `titulo` = ? ";
+        $dados = array($this->getIdCategoria(), $this->getTitulo());
         if(!empty($this->getImage())) {
             $sql .= ",`imagem` = ? "; 
             $dados[] = $this->getImage();

@@ -12,7 +12,7 @@ $subcategorias = new \App\ManipularSubCategorias();
     <button class='btn btn-success' id='btnIncSubCat' data-toggle='modal' data-target='#formModalIncSubCategoria'>Incluir subcategoria</button>    
 </div>    
 
-<table class="table" id="tabelaCategoria">
+<table class="table" id="tabelaSubCategoria">
     <thead class="thead-dark">
         <tr>
             <th>#</th>
@@ -42,23 +42,23 @@ $subcategorias->listarSubCategorias("LIMIT $inicio,$max_registros");
 $categorias = new \App\ManipularCategorias();
 foreach ($subcategorias->subcategorias['dados'] as $indice => $info) {
     
-    echo "<tr class='table-data'>";
-    echo "<td>" . $info['id'] . "</td>";
+    echo "<tr class='table-data'>\n";
+    echo "\t<td>" . $info['id'] . "</td>";
     echo "<td>" . $info['titulo']."</td>";
-    $categorias->listarCategoria($info['idCategoria']);    
+    $categorias->listarCategoria($info['idCategoria']);
     echo "<td>" . $categorias->getTitulo()."</td>";
     echo "<td>"; 
-    echo '          <img src="data:image/jpeg;base64,'.base64_encode( $info['imagem'] ).'"/>';
+    echo '<img src="data:image/jpeg;base64,'.base64_encode( $info['imagem'] ).'"/>';
     echo "</td>";
     echo "<td>";
-    echo "<button class='btn btn-success' id='btnAlterar' type='button' data-toggle='modal' ";
-    echo "data-linha='". ($indice ) . "' ";
+    echo "<button class='btn btn-info' id='btnShowAlterar' type='button' data-toggle='modal' ";
     echo "data-altId='". $info['id'] . "' ";
+    echo "data-altIdCat='". $info['idCategoria'] . "' ";
     echo "data-altTitulo='". $info['titulo'] . "' ";
-    echo " data-target='#formModalAltCategoria' href='?pagina=" . $info['id'] . "'>Alterar</button>";
-    echo "<button class='btn btn-danger' id='btnExcluir' type='button' data-toggle='modal' data-target='#modalExcluirCategoria'>Excluir</button>";
+    echo "data-target='#formModalAltSubCategoria' href='?pagina=" . $info['id'] . "'>Alterar</button>";
+    echo "<button class='btn btn-danger' id='btnExcluir' type='button' data-toggle='modal' data-target='#modalExcluirSubCategoria'>Excluir</button>";
     echo "</td>";    
-    echo "</tr>";
+    echo "\n</tr>\n";
 }
 $categorias = null;
 ?>
@@ -99,31 +99,45 @@ $categorias = null;
     </tfoot>
 </table>
 
-<div class="modal fade" id="formModalAltCategoria" tabindex="-1" role="dialog" aria-labelledby="formModalAltCategoria" aria-hidden="true">
+<div class="modal fade" id="formModalAltSubCategoria" tabindex="-1" role="dialog" aria-labelledby="formModalAltSubCategoria" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alteração da categoria</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Alteração da subcategoria</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id='formAltCat'>
+        <form id='formAltSubCat'>
+            <div class="form-group">    
+                <label for="nome">Categoria</label>      
+                <?php
+                    $categorias = new \App\ManipularCategorias();
+                    $categorias->listarCategorias();
+                ?>
+                <select class="form-control" id="idcategoria" name='idCategoria' form="formCadSubCategoria">
+                <?php            
+                foreach ($categorias->categorias['dados'] as $categoria) {
+                    echo "<option value='".$categoria['id']."'>" . $categoria['titulo'] . "</option>";
+                }
+                ?>
+                </select>
+            </div>            
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Título:</label>
-            <input type="hidden" class="form-control" id="idcategoria">
+            <input type="hidden" class="form-control" id="id">
             <input type="text" class="form-control" id="descricao">
           </div>
           <div class="form-group">            
             <label for="endereco">Imagem</label>                  
             <input class="form-control-file" type="file" id="imagem" name="imagem">
-            <img src="" width="50" height="50" style="display:none;" />
+            <img id='preview' src="" width="50" height="50" />
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" id="btnConfirAltCategoria">Alterar</button>
+        <button type="button" class="btn btn-danger" id="btnConfirAltSubCategoria">Alterar</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>        
       </div>
     </div>
@@ -131,7 +145,7 @@ $categorias = null;
 </div>
 
 <!-- Modal para excluir a conta -->
-<div class="modal fade" id="modalExcluirCategoria" tabindex="-1" role="dialog" aria-labelledby="modalExcluirCategoria" aria-hidden="true">
+<div class="modal fade" id="modalExcluirSubCategoria" tabindex="-1" role="dialog" aria-labelledby="modalExcluirCategoria" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
