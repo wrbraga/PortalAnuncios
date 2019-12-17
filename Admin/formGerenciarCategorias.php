@@ -12,6 +12,7 @@ $categorias = new \App\ManipularCategorias();
 <div class="col-12">
     <button class='btn btn-success' id='btnIncCat' data-toggle='modal' data-target='#formModalIncCategoria'>Incluir categoria</button>    
 </div>  
+
 <table class="table" id="tabelaCategoria">
     <thead class="thead-dark">
         <tr>

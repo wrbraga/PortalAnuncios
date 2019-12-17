@@ -15,6 +15,10 @@ class SubCategorias {
         $this->conn = new ConexaoSubCategoria();
     }
     
+    public function __destruct() {
+        $this->conn = null;
+    }
+    
     function getId() {
         return $this->id;
     }

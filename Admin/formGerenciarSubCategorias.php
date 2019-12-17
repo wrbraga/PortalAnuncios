@@ -2,21 +2,22 @@
 namespace Admin;
 
 include_once dirname(__DIR__,1) . '/Admin/topoAdmin.php';    
-
 include_once dirname(__DIR__,1) . '/App/ManipularCategorias.php';
+include_once dirname(__DIR__,1) . '/App/ManipularSubCategorias.php';
        
-$categorias = new \App\ManipularCategorias();
-
+$subcategorias = new \App\ManipularSubCategorias();
 
 ?>
 <div class="col-12">
-    <p class="h3">Gerenciador de subcategorias</p>
-</div>  
+    <button class='btn btn-success' id='btnIncSubCat' data-toggle='modal' data-target='#formModalIncSubCategoria'>Incluir subcategoria</button>    
+</div>    
+
 <table class="table" id="tabelaCategoria">
     <thead class="thead-dark">
         <tr>
             <th>#</th>
             <th>Título</th>
+            <th>Categoria</th>
             <th>Imagem</th>
             <th>Ações</th>
         </tr>
@@ -26,7 +27,7 @@ $categorias = new \App\ManipularCategorias();
 $max_registros = 10;
 $pagina = filter_var((isset($_GET['pagina']) ? $_GET['pagina'] : 1), FILTER_SANITIZE_NUMBER_INT);
 
-$tr = $categorias->totalCategorias();
+$tr = $subcategorias->totalSubCategorias();
 $tp = ceil($tr / $max_registros);
 
 if(!$pagina) {
@@ -37,31 +38,34 @@ if(!$pagina) {
 
 $inicio = $pc - 1;
 $inicio *= $max_registros;
-$categorias->listarCategorias("LIMIT $inicio,$max_registros");
-
-foreach ($categorias->categorias['dados'] as $indice => $categorias) {
+$subcategorias->listarSubCategorias("LIMIT $inicio,$max_registros");
+$categorias = new \App\ManipularCategorias();
+foreach ($subcategorias->subcategorias['dados'] as $indice => $info) {
+    
     echo "<tr class='table-data'>";
-    echo "<td>" . $categorias['id'] . "</td>";
-    echo "<td>" . $categorias['titulo']."</td>";
+    echo "<td>" . $info['id'] . "</td>";
+    echo "<td>" . $info['titulo']."</td>";
+    $categorias->listarCategoria($info['idCategoria']);    
+    echo "<td>" . $categorias->getTitulo()."</td>";
     echo "<td>"; 
-    echo '          <img src="data:image/jpeg;base64,'.base64_encode( $categorias['imagem'] ).'"/>';
+    echo '          <img src="data:image/jpeg;base64,'.base64_encode( $info['imagem'] ).'"/>';
     echo "</td>";
     echo "<td>";
     echo "<button class='btn btn-success' id='btnAlterar' type='button' data-toggle='modal' ";
     echo "data-linha='". ($indice ) . "' ";
-    echo "data-altId='". $categorias['id'] . "' ";
-    echo "data-altTitulo='". $categorias['titulo'] . "' ";
-    echo " data-target='#formModalAltCategoria' href='?pagina=" . $categorias['id'] . "'>Alterar</button>";
+    echo "data-altId='". $info['id'] . "' ";
+    echo "data-altTitulo='". $info['titulo'] . "' ";
+    echo " data-target='#formModalAltCategoria' href='?pagina=" . $info['id'] . "'>Alterar</button>";
     echo "<button class='btn btn-danger' id='btnExcluir' type='button' data-toggle='modal' data-target='#modalExcluirCategoria'>Excluir</button>";
     echo "</td>";    
     echo "</tr>";
 }
-
+$categorias = null;
 ?>
     </tbody>
     <tfoot class="table-secondary">
         <tr>
-            <td colspan="4">
+            <td colspan="5">
                 <nav class="">
                     <ul class="pagination justify-content-center">
  
@@ -143,6 +147,27 @@ foreach ($categorias->categorias['dados'] as $indice => $categorias) {
         <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnExcluirCategoria">Sim Excluir!</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Manter a categoria</button>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal para INCLUIR a conta -->
+<div class="modal fade" id="formModalIncSubCategoria" tabindex="-1" role="dialog" aria-labelledby="modalIncSubCategoria" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inclusão de subcategoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id='msg'>
+        <?php
+        include_once './formCadastraSubCategoria.php';
+        ?>
+        
+      </div>      
     </div>
   </div>
 </div>

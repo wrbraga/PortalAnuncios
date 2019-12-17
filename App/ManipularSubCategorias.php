@@ -9,13 +9,18 @@ require_once dirname(__DIR__,1) . '/BD/SubCategorias.class.php';
 class ManipularSubCategorias extends \BD\SubCategorias {
     public $categorias;
     public $subcategorias;
-
+    
+    public function __destruct() {
+        $this->categorias = null;
+        $this->subcategorias = null;
+        parent::__destruct();
+    }
     public function listarSubCategorias($complemento = null) {                        
         $sql = "SELECT * FROM tbSubCategorias ";
         if(!is_null($complemento)) {
             $sql .= $complemento;
         }
-        $this->subcategorias = Conexao::ExecutarSQL($sql, NULL);
+        $this->subcategorias = \BD\Conexao::ExecutarSQL($sql, NULL);
         if($this->subcategorias['registros'] > 0) {
             return $this->subcategorias['dados'];
         } else {

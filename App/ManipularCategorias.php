@@ -7,8 +7,14 @@ require_once dirname(__DIR__,1) . '/BD/Categorias.class.php';
 class ManipularCategorias extends \BD\Categorias {
     public $categorias;
     public $subcategorias;
-
-    public function listarCategorias($complemento = null) {                        
+    
+    public function __destruct() {
+        $this->categorias = null;
+        $this->subcategorias = null;
+        parent::__destruct();
+    }
+    
+    public function listarCategorias($complemento = null) {
         $sql = "SELECT * FROM tbCategorias ";
         if(!is_null($complemento)) {
             $sql .= $complemento;
@@ -21,34 +27,19 @@ class ManipularCategorias extends \BD\Categorias {
         }
     }
     
-//    public function listarCategoria($idCategoria) {
-//        $sql = "SELECT * FROM tbCategorias WHERE id = ?";        
-//        $dados = Conexao::ExecutarSQL($sql, array($idCategoria));          
-//
-//        $html = "<div class='col-lg-2'>";
-//        $html .= "    <div class='card-img border-bottom'>";
-//        $html .= '          <img src="data:image/jpeg;base64,'.base64_encode( $dados['dados'][0]['imagem'] ).'"/>';
-//        $html .= "        <strong class='card-title text-info'>".$dados['dados'][0]['titulo']."</strong>";
-//        $html .= "    </div>            ";
-//        $html .= "    <div class='list-group'>";
-//       
-//        try {         
-//            $this->listarItens($dados['dados'][0]['id']);
-//            if($this->itens['registros']) {
-//                foreach ($this->itens['dados'] as $item) {                
-//                  $html .= "      <a class='' href=''>". $item['descricao'] ."</a>";    
-//                }
-//            }
-//        } catch(PDOException $e) {
-//            $html .= "";
-//        }        
-//
-//        $html .= "    </div>";
-//        $html .= "<div style='height: 15px '></div>"; 
-//        $html .= "</div>";                    
-//        
-//        return $html;
-//    }
+    public function listarCategoria($idCategoria) {
+        $sql = "SELECT * FROM tbCategorias WHERE id = ?";        
+        $this->categorias = \BD\Conexao::ExecutarSQL($sql, array($idCategoria));          
+        
+        if($this->categorias['registros'] > 0) {
+            $this->setId($this->categorias['dados'][0]['id']);
+            $this->setTitulo($this->categorias['dados'][0]['titulo']);
+            $this->setImage($this->categorias['dados'][0]['imagem']);
+            return $this->categorias['dados'];
+        } else {
+            return $this->categorias['dados'] = null;
+        }
+    }
     
     public function listarItens($idCategoria) {
         try {        

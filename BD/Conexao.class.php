@@ -14,6 +14,11 @@ class Conexao {
         self::conectar();
     }
     
+    public function __destruct() {
+        self::$pdo = null;
+    }
+
+
     public static function conectar() {
         $stringConexao = "mysql:host=" . self::$servidor . ";dbname=" . self::$bancoDeDados;        
         try {

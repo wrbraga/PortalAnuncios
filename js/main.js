@@ -342,12 +342,13 @@ $(document).ready(function(){
         });
     });
     
-    // Botão para Cadastro de Categorias
+    // Botão para Cadastro de SubCategorias
     $('#cadSubCategoria').click(function() {   
+        var modal = $('#formCadSubCategoria');
+        var file_data = modal.find("#imagem").prop('files')[0];
+        var titulo = modal.find("#titulo").val();
+        var idcategoria = modal.find("#idCategoria").val();
         
-        var file_data = $('#formCadSubCategoria #imagem').prop('files')[0];
-        var titulo = $('#formCadSubCategoria #titulo').val();
-        var idcategoria = $('#formCadSubCategoria #idCategoria').val();
         var form_data = new FormData();  
         form_data.append('file', file_data);
         form_data.append('titulo', titulo);

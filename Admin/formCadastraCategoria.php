@@ -18,12 +18,11 @@
             </div>                        
         </div>
         
-        <div class="form-row">
-        
-        <button class="btn btn-success w-50" type="button" id="cadCategoria" name="cadCategoria">Cadastrar</button>
-        <button type="button" class="btn btn-danger w-50" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">Fechar</span>
-        </button>
+        <div class="form-row">        
+            <button class="btn btn-success w-50" type="button" id="cadCategoria" name="cadCategoria">Cadastrar</button>
+            <button type="button" class="btn btn-danger w-50" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">Fechar</span>
+            </button>
         </div>
         
     </form>

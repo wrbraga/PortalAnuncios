@@ -40,7 +40,7 @@
                       <div class='row'>
                           <div class="col-12">                              
                               <a class="btn btn-categoria" href="/Admin/formGerenciarCategorias.php">Gerenciar Categorias</a>
-                              <a class="btn btn-subcategoria" href="/Admin/formCadastraSubCategoria.php">Cadastro de Subcategoria</a>
+                              <!-- <a class="btn btn-subcategoria" href="/Admin/formCadastraSubCategoria.php">Cadastro de Subcategoria</a> -->
                               <a class="btn btn-subcategoria" href="/Admin/formGerenciarSubCategorias.php">Gerenciar Subcategoria</a>
                               <a class="btn btn-item" href="/Admin/formCadastraItens.php">Cadastro de ítens</a>
                               <a class="btn btn-item" href="/Admin/formGerenciarItens.php">Gerenciar ítens</a>

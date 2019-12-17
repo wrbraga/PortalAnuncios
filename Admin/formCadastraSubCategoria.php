@@ -10,11 +10,6 @@ $categorias->listarCategorias();
 ?>    
 
 <div class="container">
-    <div class="form-row">
-        <div class="col-12">
-            <p class="h1 border-bottom">Cadastro de Subcategorias</p>
-        </div>            
-    </div>
     <form id="formCadSubCategoria" action="" method="post">        
         <div class="form-group">    
             <label for="nome">Categoria</label>                            
@@ -39,13 +34,12 @@ $categorias->listarCategorias();
                 </div>
             </div>                        
         </div>
-       
-        <button class="btn btn-primary" type="button" id="cadSubCategoria" name="cadCategoria">Cadastrar</button>
-        
+       <div class="form-row">
+            <button class="btn btn-primary w-50" type="button" id="cadSubCategoria" name="cadCategoria">Cadastrar</button>
+            <button type="button" class="btn btn-danger w-50" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">Fechar</span>
+            </button>        
+       </div>
     </form>
     
 </div>
-
-<?php
-    require_once dirname(__DIR__,1) . '/includes/rodape.php';
-?>
