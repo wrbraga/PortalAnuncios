@@ -455,6 +455,12 @@ $(document).ready(function(){
         });    
     });
 
-    
+    $('#idCategoria').change(function(event) {
+        var categoriaEscolhida = $('#idCategoria').val();
+        $('#idSubCategoria').append($('<option>', {
+            value: 1,
+            text: categoriaEscolhida
+        }));
+    });
     
 });

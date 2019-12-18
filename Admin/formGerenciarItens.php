@@ -2,21 +2,22 @@
 namespace Admin;
 
 include_once dirname(__DIR__,1) . '/Admin/topoAdmin.php';    
-
-include_once dirname(__DIR__,1) . '/App/ManipularCategorias.php';
+include_once dirname(__DIR__,1) . '/App/ManipularItens.php';
        
-$categorias = new \App\ManipularCategorias();
+$listaDeItens = new \App\ManipularItens();
 
 
 ?>
 <div class="col-12">
-    <p class="h3">Gerenciador de itens</p>
+    <button class='btn btn-success' id='btnIncItens' data-toggle='modal' data-target='#formModalIncItens'>Incluir itens</button>    
 </div>  
-<table class="table" id="tabelaCategoria">
+<table class="table" id="tabelaItens">
     <thead class="thead-dark">
         <tr>
             <th>#</th>
-            <th>Título</th>
+            <th>Subcategoria</th>
+            <th>Montadora</th>
+            <th>Descrição</th>
             <th>Imagem</th>
             <th>Ações</th>
         </tr>
@@ -26,7 +27,9 @@ $categorias = new \App\ManipularCategorias();
 $max_registros = 10;
 $pagina = filter_var((isset($_GET['pagina']) ? $_GET['pagina'] : 1), FILTER_SANITIZE_NUMBER_INT);
 
-$tr = $categorias->totalCategorias();
+$listaDeItens->listarItens();
+$tr = $listaDeItens->itens['registros'];
+
 $tp = ceil($tr / $max_registros);
 
 if(!$pagina) {
@@ -37,31 +40,35 @@ if(!$pagina) {
 
 $inicio = $pc - 1;
 $inicio *= $max_registros;
-$categorias->listarCategorias("LIMIT $inicio,$max_registros");
 
-foreach ($categorias->categorias['dados'] as $indice => $categorias) {
-    echo "<tr class='table-data'>";
-    echo "<td>" . $categorias['id'] . "</td>";
-    echo "<td>" . $categorias['titulo']."</td>";
-    echo "<td>"; 
-    echo '          <img src="data:image/jpeg;base64,'.base64_encode( $categorias['imagem'] ).'"/>';
-    echo "</td>";
-    echo "<td>";
-    echo "<button class='btn btn-success' id='btnAlterar' type='button' data-toggle='modal' ";
-    echo "data-linha='". ($indice ) . "' ";
-    echo "data-altId='". $categorias['id'] . "' ";
-    echo "data-altTitulo='". $categorias['titulo'] . "' ";
-    echo " data-target='#formModalAltCategoria' href='?pagina=" . $categorias['id'] . "'>Alterar</button>";
-    echo "<button class='btn btn-danger' id='btnExcluir' type='button' data-toggle='modal' data-target='#modalExcluirCategoria'>Excluir</button>";
-    echo "</td>";    
-    echo "</tr>";
+if($tr) {    
+    $listaDeItens->listarItens("LIMIT $inicio,$max_registros");
+
+    foreach ($listaDeItens->itens['dados'] as $indice => $item) {
+        echo "<tr class='table-data'>";
+        echo "<td>" . $item['id'] . "</td>";
+        echo "<td>" . $item['idSubCategoria'] . "</td>";
+        echo "<td>" . $item['montadora'] . "</td>";
+        echo "<td>" . $item['descricao']."</td>";
+        echo "<td>"; 
+        echo '          <img src="data:image/jpeg;base64,'.base64_encode( $item['imagem'] ).'"/>';
+        echo "</td>";
+        echo "<td>";
+        echo "<button class='btn btn-success' id='btnAlterarItens' type='button' data-toggle='modal' ";
+        echo "data-linha='". ($indice ) . "' ";
+        echo "data-altId='". $item['id'] . "' ";
+        echo "data-altTitulo='". $item['descricao'] . "' ";
+        echo " data-target='#formModalAltItens' href='?pagina=" . $item['id'] . "'>Alterar</button>";
+        echo "<button class='btn btn-danger' id='btnExcluirItens' type='button' data-toggle='modal' data-target='#modalExcluirItens'>Excluir</button>";
+        echo "</td>";    
+        echo "</tr>";
+    }
 }
-
 ?>
     </tbody>
     <tfoot class="table-secondary">
         <tr>
-            <td colspan="4">
+            <td colspan="6">
                 <nav class="">
                     <ul class="pagination justify-content-center">
  
@@ -95,17 +102,17 @@ foreach ($categorias->categorias['dados'] as $indice => $categorias) {
     </tfoot>
 </table>
 
-<div class="modal fade" id="formModalAltCategoria" tabindex="-1" role="dialog" aria-labelledby="formModalAltCategoria" aria-hidden="true">
+<div class="modal fade" id="formModalAltItens" tabindex="-1" role="dialog" aria-labelledby="formModalAltCategoria" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Alteração da categoria</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Alteração de itens</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id='formAltCat'>
+        <form id='formAltItens'>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Título:</label>
             <input type="hidden" class="form-control" id="idcategoria">
@@ -127,22 +134,42 @@ foreach ($categorias->categorias['dados'] as $indice => $categorias) {
 </div>
 
 <!-- Modal para excluir a conta -->
-<div class="modal fade" id="modalExcluirCategoria" tabindex="-1" role="dialog" aria-labelledby="modalExcluirCategoria" aria-hidden="true">
+<div class="modal fade" id="modalExcluirItens" tabindex="-1" role="dialog" aria-labelledby="modalExcluirItens" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Exclusão definitiva da categoria</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Exclusão definitiva de itens</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" id='msg'>
-        Confirma a Exclusão da categoria?
+        Confirma a Exclusão do item?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnExcluirCategoria">Sim Excluir!</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Manter a categoria</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnExcluirItem">Sim Excluir!</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Manter o ítem</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para INCLUIR itens -->
+<div class="modal fade" id="formModalIncItens" tabindex="-1" role="dialog" aria-labelledby="modalIncItens" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Inclusão de itens</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id='msg'>
+        <?php
+        include_once './formCadastraItem.php';
+        ?>
+        
+      </div>      
     </div>
   </div>
 </div>

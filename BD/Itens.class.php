@@ -17,6 +17,10 @@ class Itens {
         $this->conn = new \BD\Conexao();
     }
     
+    public function __destruct() {
+        $this->conn = NULL;
+    }
+    
     function getId() {
         return $this->id;
     }
