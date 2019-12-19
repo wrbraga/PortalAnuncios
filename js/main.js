@@ -454,13 +454,52 @@ $(document).ready(function(){
             $('#formModalAltSubCategoria').modal('hide');
         });    
     });
-
-    $('#idCategoria').change(function(event) {
-        var categoriaEscolhida = $('#idCategoria').val();
-        $('#idSubCategoria').append($('<option>', {
-            value: 1,
-            text: categoriaEscolhida
-        }));
+    
+    /**
+     * Botão para exibir a janela modal de inclusão de itens
+     * Todos os eventos após a abertura da janela, serão tratados aqui
+     * dentro.
+     */
+    $('#btnIncItens').click(function(event) {        
+        //Na janela MODAL ao ser alterado a CATEGORIA, o <SELECT> é atualizado
+        //para listar as subcategorias
+        $('#idCategoria').change(function() {
+            var categoriaEscolhida = $('#idCategoria').val();        
+            var dados = {id : categoriaEscolhida};
+            $.post("../Admin/optionSubCategoria.php", dados, function(retorno) {
+                $('#idSubCategoria').html(retorno);
+            });
+        });
+        
+        $('#cadItens').click(function() {
+            var dados = $('#formCadItens').serializeArray();
+            var file_data = $('#formCadItens #imagem').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            dados.forEach(function(valor) {               
+               form_data.append(valor.name, valor.value);
+               console.log(valor.name);
+            });
+            
+            $.ajax({
+                url         : '../App/cadastrarItens.php',
+                dataType    : 'text',           
+                cache       : false,
+                contentType : false,
+                processData : false,
+                data        : form_data,                         
+                type        : 'POST',                
+                async: true,
+                success: function(retorno) {
+                  console.dir(retorno);
+                },
+                error: function(retorno) {
+                  console.dir(retorno);
+                }                            
+            });
+        });
+        
+        
     });
     
 });

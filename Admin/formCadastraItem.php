@@ -35,11 +35,6 @@ $subcategorias->listarSubCategorias();
                     <label for="idSubCategoria">Subcategoria</label>                            
                     <select class="form-control" id="idSubCategoria" name='idSubCategoria' form="formCadItens">
                         <option value='0' selected disabled>Subcategoria</option>
-                    <?php            
-//                    foreach ($subcategorias->subcategorias['dados'] as $subcategoria) {
-//                        echo "<option value='".$subcategoria['id']."'>" . $subcategoria['titulo'] . "</option>";
-//                    }
-                    ?>
                     </select>
                 </div>
             </div>
@@ -58,7 +53,7 @@ $subcategorias->listarSubCategorias();
         </div>
         <div class="form-group">    
             <label for="titulo">Ítem</label>                
-            <textarea class="form-control" placeholder="" id="titulo" name="titulo" form="formCadItens"> </textarea>
+            <textarea class="form-control" placeholder="" id="descricao" name="descricao" form="formCadItens"> </textarea>
         </div>
         
         <div class="form-row">

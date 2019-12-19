@@ -43,8 +43,8 @@ class ManipularItens extends \BD\Itens {
     }
    
     public function incluirItem() {
-        $sql = "INSERT INTO `tbItens`(`id`, `idSubCategoria`, `montadora`, `descricao`, `imagem`) VALUES (NULL,?,?,?,?,?)"; 
-        $dados = array($this->getId(), $this->getIdSubCategoria(), $this->getMontadora(), $this->getDescricao(), $this->getImage());
+        $sql = "INSERT INTO `tbItens`(`id`, `idSubCategoria`, `montadora`, `descricao`, `preco`, `imagem`) VALUES (NULL,?,?,?,?,?,?)"; 
+        $dados = array($this->getId(), $this->getIdSubCategoria(), $this->getMontadora(), $this->getDescricao(), $this->getPreco(), $this->getImage());
         return \BD\Conexao::ExecutarSQL($sql, $dados);          
     }
     

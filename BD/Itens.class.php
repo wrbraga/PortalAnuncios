@@ -7,10 +7,12 @@ require 'Conexao.class.php';
 
 class Itens {
     protected $id;
+    protected $idCategoria;
     protected $idSubCategoria;
     protected $montadora;
     protected $descricao;
     protected $image;
+    protected $preco;
     protected $conn;
     
     public function __construct() {        
@@ -25,8 +27,12 @@ class Itens {
         return $this->id;
     }
     
-    function getIdSubCategoria() {
+    function getIdCategoria() {
         return $this->idCategoria;
+    }
+    
+    function getIdSubCategoria() {
+        return $this->idSubCategoria;
     }
     
     function getMontadora() {
@@ -40,9 +46,17 @@ class Itens {
     function getImage() {
         return stripslashes ($this->image);
     }
+    
+    function getPreco() {
+        return $this->preco;
+    }
 
     function setId($id) {
         $this->id = $id;
+    }
+    
+    function setIdCategoria($id) {
+        $this->idCategoria = $id;
     }
     
     function setIdSubCategoria($id) {
@@ -59,6 +73,10 @@ class Itens {
 
     function setImage($image) {
         $this->image = addslashes($image);
+    }
+    
+    function setPreco($valor) {
+        $this->preco = filter_var($valor, FILTER_SANITIZE_NUMBER_FLOAT);
     }
         
 }
